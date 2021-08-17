@@ -2,7 +2,7 @@ from flask import Flask, current_app, render_template, request
 import os
 import datetime
 
-import utils
+from . import utils
 
 app = Flask(__name__)
 with app.app_context():
@@ -36,7 +36,7 @@ def index():
         current_app.ics_cache = utils.groupme_json_to_ics(groupme_json=current_app.groupme_calendar_json_cache)
         current_app.last_cache = datetime.datetime.now()
     else:
-        print('Cache hit.  Time remaining: {}'.format(datetime.timedelta(minutes=cache_duration) - (datetime.datetime.now() - last_cache)))
+        print(('Cache hit.  Time remaining: {}'.format(datetime.timedelta(minutes=cache_duration) - (datetime.datetime.now() - last_cache))))
 
     ics_url = os.environ.get('GROUPME_PROXY_URL', None)
     if not ics_url:
@@ -83,7 +83,7 @@ def full_ics():
         current_app.ics_cache = utils.groupme_json_to_ics(groupme_json=current_app.groupme_calendar_json_cache)
         current_app.last_cache = datetime.datetime.now()
     else:
-        print('Cache hit.  Time remaining: {}'.format(datetime.timedelta(minutes=cache_duration) - (datetime.datetime.now() - last_cache)))
+        print(('Cache hit.  Time remaining: {}'.format(datetime.timedelta(minutes=cache_duration) - (datetime.datetime.now() - last_cache))))
 
     return utils.return_ics_Response(getattr(current_app, 'ics_cache', None))
 
